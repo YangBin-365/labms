@@ -2,10 +2,8 @@ package edu.xau.info.controller;
 
 import com.aliyuncs.utils.StringUtils;
 import edu.xau.info.Dto.EchartDto;
-import edu.xau.info.Dto.TaskDto;
-import edu.xau.info.Vo.TaskVo;
+import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.Vo.TeacherVo;
-import edu.xau.info.bean.StuTask;
 import edu.xau.info.bean.Task;
 import edu.xau.info.bean.Teacher;
 import edu.xau.info.common.AppResponse;
@@ -14,11 +12,9 @@ import edu.xau.info.common.SendMsgTemplate;
 import edu.xau.info.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -97,10 +93,16 @@ public class TeacherController {
 
     @ApiOperation("发布任务")
     @PostMapping("/task")
-    public AppResponse postTask(Task task) {
+    public AppResponse postTask(String title,String body,int teaid,int time) {
         log.info("开始发布任务");
         try {
+            Task task = new Task();
             task.setStarttime(new Date());
+            task.setBody(body);
+            task.setTeaid(teaid);
+            task.setEndtime(new Date(new Date().getTime() + time * 8640_0000L));
+            task.setTitile(title);
+
             log.info("任务：{}", task);
             service.createtask(task);
         } catch (Exception e) {
@@ -156,9 +158,9 @@ public class TeacherController {
 
     @ApiOperation("获取已提交列表")
     @PostMapping("/getSubList")
-    public AppResponse<List<TaskVo>> getSubList(int taskid){
+    public AppResponse<List<StuTaskVo>> getSubList(int taskid){
         try {
-            List<TaskVo> list =   service.getSubList(taskid);
+            List<StuTaskVo> list =   service.getSubList(taskid);
             return AppResponse.ok(list);
         } catch (Exception e) {
             log.error(e.getMessage());

@@ -1,14 +1,17 @@
 package edu.xau.info.mapper;
 
+import edu.xau.info.Vo.TaskVo;
+import edu.xau.info.Vo.remindVo;
 import edu.xau.info.bean.Task;
 import edu.xau.info.bean.TaskExample;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TaskMapper {
-
     long countByExample(TaskExample example);
 
     int deleteByExample(TaskExample example);
@@ -36,4 +39,8 @@ public interface TaskMapper {
     int updateByPrimaryKeyWithBLOBs(Task record);
 
     int updateByPrimaryKey(Task record);
+
+    List<remindVo> findRemind(Date date, Date date1);
+
+    List<TaskVo> findTitle(Set<Integer> taskids);
 }

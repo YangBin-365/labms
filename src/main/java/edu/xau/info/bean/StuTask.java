@@ -1,20 +1,21 @@
 package edu.xau.info.bean;
 
 public class StuTask extends StuTaskKey {
-    public StuTask(String stuno, Integer taskid) {
-        super(stuno, taskid);
-    }
-
-    public StuTask() {
-    }
-
     private Float score;
 
     private Integer subflag;
 
     private Integer readflag;
 
+    private Integer remindflag;
+
     private String answer;
+    public StuTask() {
+    }
+
+    public StuTask(String sno, Integer taskid) {
+        super(sno,taskid);
+    }
 
     public Float getScore() {
         return score;
@@ -38,6 +39,14 @@ public class StuTask extends StuTaskKey {
 
     public void setReadflag(Integer readflag) {
         this.readflag = readflag;
+    }
+
+    public Integer getRemindflag() {
+        return remindflag;
+    }
+
+    public void setRemindflag(Integer remindflag) {
+        this.remindflag = remindflag;
     }
 
     public String getAnswer() {

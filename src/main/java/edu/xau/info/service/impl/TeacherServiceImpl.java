@@ -2,7 +2,7 @@ package edu.xau.info.service.impl;
 
 import edu.xau.info.Dto.EchartDto;
 import edu.xau.info.Dto.TaskDto;
-import edu.xau.info.Vo.TaskVo;
+import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.Vo.TeacherVo;
 import edu.xau.info.bean.*;
 import edu.xau.info.mapper.*;
@@ -151,7 +151,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<TaskVo> getSubList(int taskid) {
+    public List<StuTaskVo> getSubList(int taskid) {
         return stuTaskMapper.getAllSub(taskid);
     }
 

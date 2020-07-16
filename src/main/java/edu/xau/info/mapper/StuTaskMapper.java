@@ -1,6 +1,6 @@
 package edu.xau.info.mapper;
 
-import edu.xau.info.Vo.TaskVo;
+import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.bean.StuTask;
 import edu.xau.info.bean.StuTaskExample;
 import edu.xau.info.bean.StuTaskKey;
@@ -36,5 +36,5 @@ public interface StuTaskMapper {
 
     int updateByPrimaryKey(StuTask record);
 
-    List<TaskVo> getAllSub(int taskid);
+    List<StuTaskVo> getAllSub(int taskid);
 }

@@ -2,8 +2,11 @@ package edu.xau.info.mapper;
 
 import edu.xau.info.bean.Menu;
 import edu.xau.info.bean.MenuExample;
+
+import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.GrantedAuthority;
 
 public interface MenuMapper {
     long countByExample(MenuExample example);
@@ -27,4 +30,6 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<String> findMenuByRole(List authorities);
 }

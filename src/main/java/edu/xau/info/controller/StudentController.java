@@ -30,7 +30,7 @@ public class StudentController {
     @Autowired
     OSSTemplate ossTemplate;
 
-    @ApiOperation(value = "上传图片")
+    @ApiOperation(value = "上传文件")
     @PostMapping("/upload")
     public AppResponse<Object> upload(@RequestParam("uploadfile") MultipartFile[] files) {//可不指定
         try {

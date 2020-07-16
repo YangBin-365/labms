@@ -50,7 +50,4 @@ public class OSSTemplate {
         return filePath;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        new OSSTemplate().upload("test", new FileInputStream("E:\\杨斌\\图片\\a.jpg"));
-    }
 }

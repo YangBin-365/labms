@@ -6,7 +6,7 @@
     <result column="teaid" jdbcType="INTEGER" property="teaid" />
     <result column="titile" jdbcType="VARCHAR" property="titile" />
     <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
-    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.xau.info.bean.Task">
     <result column="body" jdbcType="LONGVARCHAR" property="body" />
@@ -70,11 +70,36 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    taskid, teaid, titile, starttime, time
+    taskid, teaid, titile, starttime, endtime
   </sql>
   <sql id="Blob_Column_List">
     body
   </sql>
+
+  <select id="findTitle" resultType="edu.xau.info.Vo.TaskVo" parameterType="java.util.Set">
+    select titile,taskid from task
+    <where>
+    <if test="taskids != null and taskids.size() > 0">
+      <foreach collection="taskids" open=" `taskid` in(" close=");" item="id" separator=",">
+        #{id}
+      </foreach>
+    </if>
+  </where>
+  </select>
+
+  <select id="findRemind" resultType="edu.xau.info.Vo.remindVo">
+    SELECT
+    stuno,
+    taskid
+    FROM
+    stu_task
+    WHERE
+    subflag IS NULL
+    AND remindflag IS NULL
+    AND taskid IN ( SELECT taskid FROM task WHERE
+    endtime between #{date} AND #{date1});
+  </select>
+
   <select id="selectByExampleWithBLOBs" parameterType="edu.xau.info.bean.TaskExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
@@ -125,13 +150,13 @@
   </delete>
   <insert id="insert" parameterType="edu.xau.info.bean.Task">
     insert into task (taskid, teaid, titile, 
-      starttime, time, body
+      starttime, endtime, body
       )
     values (#{taskid,jdbcType=INTEGER}, #{teaid,jdbcType=INTEGER}, #{titile,jdbcType=VARCHAR}, 
-      #{starttime,jdbcType=TIMESTAMP}, #{time,jdbcType=VARCHAR}, #{body,jdbcType=LONGVARCHAR}
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{body,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="edu.xau.info.bean.Task" keyProperty="taskid" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="edu.xau.info.bean.Task">
     insert into task
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="taskid != null">
@@ -146,8 +171,8 @@
       <if test="starttime != null">
         starttime,
       </if>
-      <if test="time != null">
-        time,
+      <if test="endtime != null">
+        endtime,
       </if>
       <if test="body != null">
         body,
@@ -166,8 +191,8 @@
       <if test="starttime != null">
         #{starttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="time != null">
-        #{time,jdbcType=VARCHAR},
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="body != null">
         #{body,jdbcType=LONGVARCHAR},
@@ -195,8 +220,8 @@
       <if test="record.starttime != null">
         starttime = #{record.starttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.time != null">
-        time = #{record.time,jdbcType=VARCHAR},
+      <if test="record.endtime != null">
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.body != null">
         body = #{record.body,jdbcType=LONGVARCHAR},
@@ -212,7 +237,7 @@
       teaid = #{record.teaid,jdbcType=INTEGER},
       titile = #{record.titile,jdbcType=VARCHAR},
       starttime = #{record.starttime,jdbcType=TIMESTAMP},
-      time = #{record.time,jdbcType=VARCHAR},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
       body = #{record.body,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,11 +249,14 @@
       teaid = #{record.teaid,jdbcType=INTEGER},
       titile = #{record.titile,jdbcType=VARCHAR},
       starttime = #{record.starttime,jdbcType=TIMESTAMP},
-      time = #{record.time,jdbcType=VARCHAR}
+      endtime = #{record.endtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="edu.xau.info.bean.Task">
     update task
     <set>
@@ -241,8 +269,8 @@
       <if test="starttime != null">
         starttime = #{starttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="time != null">
-        time = #{time,jdbcType=VARCHAR},
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="body != null">
         body = #{body,jdbcType=LONGVARCHAR},
@@ -255,7 +283,7 @@
     set teaid = #{teaid,jdbcType=INTEGER},
       titile = #{titile,jdbcType=VARCHAR},
       starttime = #{starttime,jdbcType=TIMESTAMP},
-      time = #{time,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
       body = #{body,jdbcType=LONGVARCHAR}
     where taskid = #{taskid,jdbcType=INTEGER}
   </update>
@@ -264,7 +292,7 @@
     set teaid = #{teaid,jdbcType=INTEGER},
       titile = #{titile,jdbcType=VARCHAR},
       starttime = #{starttime,jdbcType=TIMESTAMP},
-      time = #{time,jdbcType=VARCHAR}
+      endtime = #{endtime,jdbcType=TIMESTAMP}
     where taskid = #{taskid,jdbcType=INTEGER}
   </update>
 </mapper>

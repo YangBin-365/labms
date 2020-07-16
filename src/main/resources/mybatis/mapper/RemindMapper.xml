@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.xau.info.mapper.MenuMapper">
-  <resultMap id="BaseResultMap" type="edu.xau.info.bean.Menu">
-    <id column="menuid" jdbcType="INTEGER" property="menuid" />
-    <result column="titile" jdbcType="VARCHAR" property="titile" />
-    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+<mapper namespace="edu.xau.info.mapper.RemindMapper">
+  <resultMap id="BaseResultMap" type="edu.xau.info.bean.Remind">
+    <id column="stuno" jdbcType="CHAR" property="stuno" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,37 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    menuid, titile, roleid
+    stuno, title, time
   </sql>
-
-  <select id="findMenuByRole" resultType="String" parameterType="java.util.List" >
-SELECT
-	titile
-FROM
-	menu
-WHERE
-	roleid IN (
-	SELECT
-		roleid
-	FROM
-		role
-    <where>
-      <if test="list != null and list.size()> 0">
-        <foreach collection="list" open=" `name` in(" close="));" item="name" separator=",">
-          #{name}
-        </foreach>
-      </if>
-    </where>
-  </select>
-
-
-  <select id="selectByExample" parameterType="edu.xau.info.bean.MenuExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="edu.xau.info.bean.RemindExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from menu
+    from remind
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -103,70 +81,70 @@ WHERE
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from menu
-    where menuid = #{menuid,jdbcType=INTEGER}
+    from remind
+    where stuno = #{stuno,jdbcType=CHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from menu
-    where menuid = #{menuid,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from remind
+    where stuno = #{stuno,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="edu.xau.info.bean.MenuExample">
-    delete from menu
+  <delete id="deleteByExample" parameterType="edu.xau.info.bean.RemindExample">
+    delete from remind
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="edu.xau.info.bean.Menu">
-    insert into menu (menuid, titile, roleid
+  <insert id="insert" parameterType="edu.xau.info.bean.Remind">
+    insert into remind (stuno, title, time
       )
-    values (#{menuid,jdbcType=INTEGER}, #{titile,jdbcType=VARCHAR}, #{roleid,jdbcType=INTEGER}
+    values (#{stuno,jdbcType=CHAR}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="edu.xau.info.bean.Menu">
-    insert into menu
+  <insert id="insertSelective" parameterType="edu.xau.info.bean.Remind">
+    insert into remind
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="menuid != null">
-        menuid,
+      <if test="stuno != null">
+        stuno,
       </if>
-      <if test="titile != null">
-        titile,
+      <if test="title != null">
+        title,
       </if>
-      <if test="roleid != null">
-        roleid,
+      <if test="time != null">
+        time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="menuid != null">
-        #{menuid,jdbcType=INTEGER},
+      <if test="stuno != null">
+        #{stuno,jdbcType=CHAR},
       </if>
-      <if test="titile != null">
-        #{titile,jdbcType=VARCHAR},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="roleid != null">
-        #{roleid,jdbcType=INTEGER},
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="edu.xau.info.bean.MenuExample" resultType="java.lang.Long">
-    select count(*) from menu
+  <select id="countByExample" parameterType="edu.xau.info.bean.RemindExample" resultType="java.lang.Long">
+    select count(*) from remind
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update menu
+    update remind
     <set>
-      <if test="record.menuid != null">
-        menuid = #{record.menuid,jdbcType=INTEGER},
+      <if test="record.stuno != null">
+        stuno = #{record.stuno,jdbcType=CHAR},
       </if>
-      <if test="record.titile != null">
-        titile = #{record.titile,jdbcType=VARCHAR},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.roleid != null">
-        roleid = #{record.roleid,jdbcType=INTEGER},
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -174,30 +152,30 @@ WHERE
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update menu
-    set menuid = #{record.menuid,jdbcType=INTEGER},
-      titile = #{record.titile,jdbcType=VARCHAR},
-      roleid = #{record.roleid,jdbcType=INTEGER}
+    update remind
+    set stuno = #{record.stuno,jdbcType=CHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="edu.xau.info.bean.Menu">
-    update menu
+  <update id="updateByPrimaryKeySelective" parameterType="edu.xau.info.bean.Remind">
+    update remind
     <set>
-      <if test="titile != null">
-        titile = #{titile,jdbcType=VARCHAR},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="roleid != null">
-        roleid = #{roleid,jdbcType=INTEGER},
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where menuid = #{menuid,jdbcType=INTEGER}
+    where stuno = #{stuno,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="edu.xau.info.bean.Menu">
-    update menu
-    set titile = #{titile,jdbcType=VARCHAR},
-      roleid = #{roleid,jdbcType=INTEGER}
-    where menuid = #{menuid,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="edu.xau.info.bean.Remind">
+    update remind
+    set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where stuno = #{stuno,jdbcType=CHAR}
   </update>
 </mapper>

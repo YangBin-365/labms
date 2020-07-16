@@ -7,6 +7,7 @@
     <result column="score" jdbcType="REAL" property="score" />
     <result column="subflag" jdbcType="INTEGER" property="subflag" />
     <result column="readflag" jdbcType="INTEGER" property="readflag" />
+    <result column="remindflag" jdbcType="INTEGER" property="remindflag" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.xau.info.bean.StuTask">
     <result column="answer" jdbcType="LONGVARCHAR" property="answer" />
@@ -70,28 +71,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    stuno, taskid, score, subflag, readflag
+    stuno, taskid, score, subflag, readflag, remindflag
   </sql>
   <sql id="Blob_Column_List">
     answer
   </sql>
-
-  <select id="getAllSub" resultType="edu.xau.info.Vo.TaskVo">
-SELECT
-	s.`name`,
-	t.taskid,
-	s.stuno,
-	t.answer
-FROM
-	student AS s,
-	stu_task AS t
-WHERE
-	t.stuno = s.stuno
-	AND t.subflag = 1
-	AND t.taskid = #{taskid};
-
-  </select>
-
   <select id="selectByExampleWithBLOBs" parameterType="edu.xau.info.bean.StuTaskExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
@@ -122,6 +106,24 @@ WHERE
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="getAllSub" resultType="edu.xau.info.Vo.StuTaskVo">
+SELECT
+	s.`name`,
+	t.taskid,
+	s.stuno,
+	t.answer
+FROM
+	student AS s,
+	stu_task AS t
+WHERE
+	t.stuno = s.stuno
+	AND t.subflag = 1
+	AND t.taskid = #{taskid};
+
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="edu.xau.info.bean.StuTaskKey" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
@@ -144,11 +146,11 @@ WHERE
   </delete>
   <insert id="insert" parameterType="edu.xau.info.bean.StuTask">
     insert into stu_task (stuno, taskid, score, 
-      subflag, readflag, answer
-      )
+      subflag, readflag, remindflag, 
+      answer)
     values (#{stuno,jdbcType=CHAR}, #{taskid,jdbcType=INTEGER}, #{score,jdbcType=REAL}, 
-      #{subflag,jdbcType=INTEGER}, #{readflag,jdbcType=INTEGER}, #{answer,jdbcType=LONGVARCHAR}
-      )
+      #{subflag,jdbcType=INTEGER}, #{readflag,jdbcType=INTEGER}, #{remindflag,jdbcType=INTEGER}, 
+      #{answer,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="edu.xau.info.bean.StuTask">
     insert into stu_task
@@ -167,6 +169,9 @@ WHERE
       </if>
       <if test="readflag != null">
         readflag,
+      </if>
+      <if test="remindflag != null">
+        remindflag,
       </if>
       <if test="answer != null">
         answer,
@@ -187,6 +192,9 @@ WHERE
       </if>
       <if test="readflag != null">
         #{readflag,jdbcType=INTEGER},
+      </if>
+      <if test="remindflag != null">
+        #{remindflag,jdbcType=INTEGER},
       </if>
       <if test="answer != null">
         #{answer,jdbcType=LONGVARCHAR},
@@ -217,6 +225,9 @@ WHERE
       <if test="record.readflag != null">
         readflag = #{record.readflag,jdbcType=INTEGER},
       </if>
+      <if test="record.remindflag != null">
+        remindflag = #{record.remindflag,jdbcType=INTEGER},
+      </if>
       <if test="record.answer != null">
         answer = #{record.answer,jdbcType=LONGVARCHAR},
       </if>
@@ -232,6 +243,7 @@ WHERE
       score = #{record.score,jdbcType=REAL},
       subflag = #{record.subflag,jdbcType=INTEGER},
       readflag = #{record.readflag,jdbcType=INTEGER},
+      remindflag = #{record.remindflag,jdbcType=INTEGER},
       answer = #{record.answer,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -243,7 +255,8 @@ WHERE
       taskid = #{record.taskid,jdbcType=INTEGER},
       score = #{record.score,jdbcType=REAL},
       subflag = #{record.subflag,jdbcType=INTEGER},
-      readflag = #{record.readflag,jdbcType=INTEGER}
+      readflag = #{record.readflag,jdbcType=INTEGER},
+      remindflag = #{record.remindflag,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -260,6 +273,9 @@ WHERE
       <if test="readflag != null">
         readflag = #{readflag,jdbcType=INTEGER},
       </if>
+      <if test="remindflag != null">
+        remindflag = #{remindflag,jdbcType=INTEGER},
+      </if>
       <if test="answer != null">
         answer = #{answer,jdbcType=LONGVARCHAR},
       </if>
@@ -272,6 +288,7 @@ WHERE
     set score = #{score,jdbcType=REAL},
       subflag = #{subflag,jdbcType=INTEGER},
       readflag = #{readflag,jdbcType=INTEGER},
+      remindflag = #{remindflag,jdbcType=INTEGER},
       answer = #{answer,jdbcType=LONGVARCHAR}
     where stuno = #{stuno,jdbcType=CHAR}
       and taskid = #{taskid,jdbcType=INTEGER}
@@ -280,7 +297,8 @@ WHERE
     update stu_task
     set score = #{score,jdbcType=REAL},
       subflag = #{subflag,jdbcType=INTEGER},
-      readflag = #{readflag,jdbcType=INTEGER}
+      readflag = #{readflag,jdbcType=INTEGER},
+      remindflag = #{remindflag,jdbcType=INTEGER}
     where stuno = #{stuno,jdbcType=CHAR}
       and taskid = #{taskid,jdbcType=INTEGER}
   </update>

@@ -413,6 +413,66 @@ public class StuTaskExample {
             addCriterion("readflag not between", value1, value2, "readflag");
             return (Criteria) this;
         }
+
+        public Criteria andRemindflagIsNull() {
+            addCriterion("remindflag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagIsNotNull() {
+            addCriterion("remindflag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagEqualTo(Integer value) {
+            addCriterion("remindflag =", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagNotEqualTo(Integer value) {
+            addCriterion("remindflag <>", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagGreaterThan(Integer value) {
+            addCriterion("remindflag >", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagGreaterThanOrEqualTo(Integer value) {
+            addCriterion("remindflag >=", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagLessThan(Integer value) {
+            addCriterion("remindflag <", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagLessThanOrEqualTo(Integer value) {
+            addCriterion("remindflag <=", value, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagIn(List<Integer> values) {
+            addCriterion("remindflag in", values, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagNotIn(List<Integer> values) {
+            addCriterion("remindflag not in", values, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagBetween(Integer value1, Integer value2) {
+            addCriterion("remindflag between", value1, value2, "remindflag");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemindflagNotBetween(Integer value1, Integer value2) {
+            addCriterion("remindflag not between", value1, value2, "remindflag");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

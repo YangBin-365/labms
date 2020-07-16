@@ -1,22 +1,19 @@
 package edu.xau.info.bean;
 
-import lombok.ToString;
-
 import java.util.Date;
 
-@ToString
 public class Task {
-
-    private String titile;
-    private String body;
-    private String time;
-
     private Integer taskid;
 
     private Integer teaid;
 
+    private String titile;
+
     private Date starttime;
 
+    private Date endtime;
+
+    private String body;
 
     public Integer getTaskid() {
         return taskid;
@@ -50,12 +47,12 @@ public class Task {
         this.starttime = starttime;
     }
 
-    public String getTime() {
-        return time;
+    public Date getEndtime() {
+        return endtime;
     }
 
-    public void setTime(String time) {
-        this.time = time == null ? null : time.trim();
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
     }
 
     public String getBody() {
