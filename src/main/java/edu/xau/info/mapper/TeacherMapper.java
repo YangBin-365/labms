@@ -1,5 +1,6 @@
 package edu.xau.info.mapper;
 
+import edu.xau.info.Dto.Dto;
 import edu.xau.info.Dto.TaskDto;
 import edu.xau.info.bean.Teacher;
 import edu.xau.info.bean.TeacherExample;
@@ -22,4 +23,10 @@ public interface TeacherMapper {
     int updateByExample(@Param("record") Teacher record, @Param("example") TeacherExample example);
 
     List<TaskDto>  findTaskView(int teaid);
+
+    List<String> findAllNos();
+
+    List<Dto> findStuCountDto();
+
+    List<Dto> findTaskCountDto();
 }

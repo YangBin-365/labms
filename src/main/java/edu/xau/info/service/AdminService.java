@@ -5,4 +5,6 @@ package edu.xau.info.service;
  * @Date: 2020/7/15 0015 12:15
  */
 public interface AdminService {
+    void sendmsgtotea(String title);
+
 }

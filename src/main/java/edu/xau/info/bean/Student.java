@@ -9,7 +9,9 @@ public class Student {
 
     private String sex;
 
-    private String graduationtime;
+    private String grade;
+
+    private Integer graduationtime;
 
     private Integer flag;
 
@@ -47,12 +49,20 @@ public class Student {
         this.sex = sex == null ? null : sex.trim();
     }
 
-    public String getGraduationtime() {
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade == null ? null : grade.trim();
+    }
+
+    public Integer getGraduationtime() {
         return graduationtime;
     }
 
-    public void setGraduationtime(String graduationtime) {
-        this.graduationtime = graduationtime == null ? null : graduationtime.trim();
+    public void setGraduationtime(Integer graduationtime) {
+        this.graduationtime = graduationtime;
     }
 
     public Integer getFlag() {

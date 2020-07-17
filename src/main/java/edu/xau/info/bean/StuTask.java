@@ -1,6 +1,37 @@
 package edu.xau.info.bean;
 
+import lombok.ToString;
+
+
 public class StuTask extends StuTaskKey {
+    @Override
+    public String toString() {
+        return "StuTask{" +
+                super.toString() +
+                "url='" + url + '\'' +
+                ", score=" + score +
+                ", subflag=" + subflag +
+                ", readflag=" + readflag +
+                ", remindflag=" + remindflag +
+                ", answer='" + answer + '\'' +
+                '}';
+    }
+
+    public StuTask() {
+    }
+
+    public StuTask(String stuno, Integer taskid, String url, String answer,Integer subflag) {
+        super(stuno, taskid);
+        this.url = url;
+        this.answer = answer;
+        this.subflag = subflag;
+    }
+
+    public StuTask(String sno, Integer taskid) {
+        super(sno,taskid);
+    }
+    private String url;
+
     private Float score;
 
     private Integer subflag;
@@ -10,11 +41,13 @@ public class StuTask extends StuTaskKey {
     private Integer remindflag;
 
     private String answer;
-    public StuTask() {
+
+    public String getUrl() {
+        return url;
     }
 
-    public StuTask(String sno, Integer taskid) {
-        super(sno,taskid);
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     public Float getScore() {

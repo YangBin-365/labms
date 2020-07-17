@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class AppDruidConfig {
-/*
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource dataSource() throws SQLException {
@@ -37,7 +36,7 @@ public class AppDruidConfig {
         initParams.put("loginUsername", "admin");
         initParams.put("loginPassword", "123456");
         initParams.put("allow", "");// 默认就是允许所有访问
-        //initParams.put("deny", "192.168.15.21");
+        initParams.put("deny", "192.168.0.107");
         bean.setInitParameters(initParams);
         return bean;
     }
@@ -51,5 +50,5 @@ public class AppDruidConfig {
         bean.setInitParameters(initParams);
         bean.setUrlPatterns(Arrays.asList("/*"));
         return bean;
-    }*/
+    }
 }

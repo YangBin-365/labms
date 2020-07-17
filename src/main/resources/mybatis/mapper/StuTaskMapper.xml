@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="edu.xau.info.bean.StuTask">
     <id column="stuno" jdbcType="CHAR" property="stuno" />
     <id column="taskid" jdbcType="INTEGER" property="taskid" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="score" jdbcType="REAL" property="score" />
     <result column="subflag" jdbcType="INTEGER" property="subflag" />
     <result column="readflag" jdbcType="INTEGER" property="readflag" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    stuno, taskid, score, subflag, readflag, remindflag
+    stuno, taskid, url, score, subflag, readflag, remindflag
   </sql>
   <sql id="Blob_Column_List">
     answer
@@ -106,6 +107,7 @@
       order by ${orderByClause}
     </if>
   </select>
+
 
   <select id="getAllSub" resultType="edu.xau.info.Vo.StuTaskVo">
 SELECT
@@ -145,12 +147,12 @@ WHERE
     </if>
   </delete>
   <insert id="insert" parameterType="edu.xau.info.bean.StuTask">
-    insert into stu_task (stuno, taskid, score, 
-      subflag, readflag, remindflag, 
-      answer)
-    values (#{stuno,jdbcType=CHAR}, #{taskid,jdbcType=INTEGER}, #{score,jdbcType=REAL}, 
-      #{subflag,jdbcType=INTEGER}, #{readflag,jdbcType=INTEGER}, #{remindflag,jdbcType=INTEGER}, 
-      #{answer,jdbcType=LONGVARCHAR})
+    insert into stu_task (stuno, taskid, url, 
+      score, subflag, readflag, 
+      remindflag, answer)
+    values (#{stuno,jdbcType=CHAR}, #{taskid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{score,jdbcType=REAL}, #{subflag,jdbcType=INTEGER}, #{readflag,jdbcType=INTEGER}, 
+      #{remindflag,jdbcType=INTEGER}, #{answer,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="edu.xau.info.bean.StuTask">
     insert into stu_task
@@ -160,6 +162,9 @@ WHERE
       </if>
       <if test="taskid != null">
         taskid,
+      </if>
+      <if test="url != null">
+        url,
       </if>
       <if test="score != null">
         score,
@@ -183,6 +188,9 @@ WHERE
       </if>
       <if test="taskid != null">
         #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
         #{score,jdbcType=REAL},
@@ -216,6 +224,9 @@ WHERE
       <if test="record.taskid != null">
         taskid = #{record.taskid,jdbcType=INTEGER},
       </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
       <if test="record.score != null">
         score = #{record.score,jdbcType=REAL},
       </if>
@@ -240,6 +251,7 @@ WHERE
     update stu_task
     set stuno = #{record.stuno,jdbcType=CHAR},
       taskid = #{record.taskid,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
       score = #{record.score,jdbcType=REAL},
       subflag = #{record.subflag,jdbcType=INTEGER},
       readflag = #{record.readflag,jdbcType=INTEGER},
@@ -253,6 +265,7 @@ WHERE
     update stu_task
     set stuno = #{record.stuno,jdbcType=CHAR},
       taskid = #{record.taskid,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
       score = #{record.score,jdbcType=REAL},
       subflag = #{record.subflag,jdbcType=INTEGER},
       readflag = #{record.readflag,jdbcType=INTEGER},
@@ -264,6 +277,9 @@ WHERE
   <update id="updateByPrimaryKeySelective" parameterType="edu.xau.info.bean.StuTask">
     update stu_task
     <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
       <if test="score != null">
         score = #{score,jdbcType=REAL},
       </if>
@@ -285,7 +301,8 @@ WHERE
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.xau.info.bean.StuTask">
     update stu_task
-    set score = #{score,jdbcType=REAL},
+    set url = #{url,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
       subflag = #{subflag,jdbcType=INTEGER},
       readflag = #{readflag,jdbcType=INTEGER},
       remindflag = #{remindflag,jdbcType=INTEGER},
@@ -295,11 +312,13 @@ WHERE
   </update>
   <update id="updateByPrimaryKey" parameterType="edu.xau.info.bean.StuTask">
     update stu_task
-    set score = #{score,jdbcType=REAL},
+    set url = #{url,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
       subflag = #{subflag,jdbcType=INTEGER},
       readflag = #{readflag,jdbcType=INTEGER},
       remindflag = #{remindflag,jdbcType=INTEGER}
     where stuno = #{stuno,jdbcType=CHAR}
       and taskid = #{taskid,jdbcType=INTEGER}
   </update>
+
 </mapper>

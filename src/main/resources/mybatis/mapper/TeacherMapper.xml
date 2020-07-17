@@ -92,6 +92,20 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
+
+    <select id="findStuCountDto" resultType="edu.xau.info.Dto.Dto">
+select teacher.`name` as xdata , count(student.stuid) as y from teacher left join student on teacher.userid = student.teaid and student.flag is null
+group by teaid;
+    </select>
+
+    <select id="findTaskCountDto" resultType="edu.xau.info.Dto.Dto">
+select teacher.`name` as xdata, count(task.taskid) as y from teacher left join task on teacher.userid = task.teaid group by teaid;
+    </select>
+
+    <select id="findAllNos" resultType="java.lang.String">
+            select teacherno from teacher where flag = 1;
+    </select>
+
     <insert id="insert" parameterType="edu.xau.info.bean.Teacher">
     insert into teacher (userid, name, sex, 
       teacherno, Invitecode, flag

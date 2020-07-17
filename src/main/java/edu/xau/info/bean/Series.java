@@ -13,4 +13,15 @@ public class Series {
     String name;
     String type = "bar";
     Number[] data;
+
+    public Series(String name, String type, Number[] data) {
+        this.name = name;
+        this.type = type;
+        this.data = data;
+    }
+
+    public Series(String name, Number[] data) {
+        this.name = name;
+        this.data = data;
+    }
 }

@@ -374,6 +374,76 @@ public class StudentExample {
             return (Criteria) this;
         }
 
+        public Criteria andGradeIsNull() {
+            addCriterion("grade is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeIsNotNull() {
+            addCriterion("grade is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeEqualTo(String value) {
+            addCriterion("grade =", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeNotEqualTo(String value) {
+            addCriterion("grade <>", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeGreaterThan(String value) {
+            addCriterion("grade >", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeGreaterThanOrEqualTo(String value) {
+            addCriterion("grade >=", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeLessThan(String value) {
+            addCriterion("grade <", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeLessThanOrEqualTo(String value) {
+            addCriterion("grade <=", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeLike(String value) {
+            addCriterion("grade like", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeNotLike(String value) {
+            addCriterion("grade not like", value, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeIn(List<String> values) {
+            addCriterion("grade in", values, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeNotIn(List<String> values) {
+            addCriterion("grade not in", values, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeBetween(String value1, String value2) {
+            addCriterion("grade between", value1, value2, "grade");
+            return (Criteria) this;
+        }
+
+        public Criteria andGradeNotBetween(String value1, String value2) {
+            addCriterion("grade not between", value1, value2, "grade");
+            return (Criteria) this;
+        }
+
         public Criteria andGraduationtimeIsNull() {
             addCriterion("graduationtime is null");
             return (Criteria) this;
@@ -384,62 +454,52 @@ public class StudentExample {
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeEqualTo(String value) {
+        public Criteria andGraduationtimeEqualTo(Integer value) {
             addCriterion("graduationtime =", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeNotEqualTo(String value) {
+        public Criteria andGraduationtimeNotEqualTo(Integer value) {
             addCriterion("graduationtime <>", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeGreaterThan(String value) {
+        public Criteria andGraduationtimeGreaterThan(Integer value) {
             addCriterion("graduationtime >", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeGreaterThanOrEqualTo(String value) {
+        public Criteria andGraduationtimeGreaterThanOrEqualTo(Integer value) {
             addCriterion("graduationtime >=", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeLessThan(String value) {
+        public Criteria andGraduationtimeLessThan(Integer value) {
             addCriterion("graduationtime <", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeLessThanOrEqualTo(String value) {
+        public Criteria andGraduationtimeLessThanOrEqualTo(Integer value) {
             addCriterion("graduationtime <=", value, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeLike(String value) {
-            addCriterion("graduationtime like", value, "graduationtime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGraduationtimeNotLike(String value) {
-            addCriterion("graduationtime not like", value, "graduationtime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGraduationtimeIn(List<String> values) {
+        public Criteria andGraduationtimeIn(List<Integer> values) {
             addCriterion("graduationtime in", values, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeNotIn(List<String> values) {
+        public Criteria andGraduationtimeNotIn(List<Integer> values) {
             addCriterion("graduationtime not in", values, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeBetween(String value1, String value2) {
+        public Criteria andGraduationtimeBetween(Integer value1, Integer value2) {
             addCriterion("graduationtime between", value1, value2, "graduationtime");
             return (Criteria) this;
         }
 
-        public Criteria andGraduationtimeNotBetween(String value1, String value2) {
+        public Criteria andGraduationtimeNotBetween(Integer value1, Integer value2) {
             addCriterion("graduationtime not between", value1, value2, "graduationtime");
             return (Criteria) this;
         }

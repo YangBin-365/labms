@@ -1,5 +1,7 @@
 package edu.xau.info.mapper;
 
+import edu.xau.info.Vo.StudentInfo;
+import edu.xau.info.Vo.grastuVo;
 import edu.xau.info.bean.Student;
 import edu.xau.info.bean.StudentExample;
 import java.util.List;
@@ -27,4 +29,12 @@ public interface StudentMapper {
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);
+
+
+    List<grastuVo> findgraduatestu(int parseInt);
+
+    void updategraduatestu(List<Integer> ids);
+
+    List<StudentInfo> findpartner(int stuid);
+
 }

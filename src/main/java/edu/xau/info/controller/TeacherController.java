@@ -1,24 +1,20 @@
 package edu.xau.info.controller;
 
-import com.aliyuncs.utils.StringUtils;
 import edu.xau.info.Dto.EchartDto;
 import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.Vo.TeacherVo;
 import edu.xau.info.bean.Task;
 import edu.xau.info.bean.Teacher;
 import edu.xau.info.common.AppResponse;
-import edu.xau.info.common.Code;
-import edu.xau.info.common.SendMsgTemplate;
+import edu.xau.info.common.CodeUtils;
 import edu.xau.info.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: 杨斌
@@ -29,10 +25,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/teacher")
 @RestController
 public class TeacherController {
-    @Autowired
-    private SendMsgTemplate msgTemplate;
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+
+
     @Autowired
     private TeacherService service;
 
@@ -47,30 +41,12 @@ public class TeacherController {
         }
     }
 
-    @ApiOperation(value = "发送短信验证码")
-    @PostMapping("/sendsms")
-    public AppResponse<String> sendsms(String loginacct) {
-        Map<String, String> map = new HashMap();
-        map.put("PhoneNumbers", loginacct);
-//        设置短信模板
-        map.put("TemplateCode", "SMS_191801995");
-        String code = Code.getCode(6);
-//        设置短信参数
-        map.put("TemplateParam", "{code:" + code + "}");
-        msgTemplate.sendCheckCode(map);
-        log.info("发送短信成功");
-//        将手机号及其验证码存于redis中，有效时间五分钟
-        redisTemplate.opsForValue().set(loginacct, code, 5, TimeUnit.MINUTES);
-        log.info("将验证码: {} 成功存于redis", code);
-        return AppResponse.ok(code);
-    }
-
 
     @ApiOperation(value = "教师注册")
     @PostMapping("/valide")
     public AppResponse register(TeacherVo teacher, String code) {
         try {
-            if (check(code, teacher.getMobile())) {
+            if (CodeUtils.check(code, teacher.getMobile())) {
                 service.register(teacher);
                 return AppResponse.ok("ok");
             }
@@ -171,7 +147,7 @@ public class TeacherController {
 
 
     @ApiOperation("获取总人数")
-    @GetMapping("/getSubdNum")
+    @GetMapping("/getSubNum")
     public AppResponse<Long> getTotal(String taskid){
         try {
             long count = service.getTotal(taskid);
@@ -182,19 +158,4 @@ public class TeacherController {
         }
     }
 
-    public boolean check(String code, String loginacct) {
-        try {
-            if (StringUtils.isEmpty(code) || StringUtils.isEmpty(loginacct)) {
-                return false;
-            }
-            String redisCode = redisTemplate.opsForValue().get(loginacct);
-            if (code.equals(redisCode)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

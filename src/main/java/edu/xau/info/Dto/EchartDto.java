@@ -1,6 +1,7 @@
 package edu.xau.info.Dto;
 
 import edu.xau.info.bean.Series;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,7 +11,11 @@ import lombok.ToString;
  */
 @Data
 @ToString
+@AllArgsConstructor
 public class EchartDto {
+    public EchartDto() {
+    }
+
     String[] legend;
     String[] xAxis ;
     Series[] series;

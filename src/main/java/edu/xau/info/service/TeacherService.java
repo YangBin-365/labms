@@ -29,4 +29,8 @@ public interface TeacherService {
     long getTotal(String taskid);
 
     List<StuTaskVo> getSubList(int taskid);
+
+    void updateflagbyid(int teaid);
+
+    EchartDto findteaechart();
 }

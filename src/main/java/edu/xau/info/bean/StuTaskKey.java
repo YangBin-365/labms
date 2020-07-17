@@ -1,8 +1,18 @@
 package edu.xau.info.bean;
 
+import lombok.ToString;
+
 public class StuTaskKey {
 
     public StuTaskKey() {
+    }
+
+    @Override
+    public String toString() {
+        return "StuTaskKey{" +
+                "stuno='" + stuno + '\'' +
+                ", taskid=" + taskid +
+                '}';
     }
 
     public StuTaskKey(String stuno, Integer taskid) {
