@@ -1,8 +1,8 @@
 package edu.xau.info.service.impl;
 
-import edu.xau.info.bean.Remind;
-import edu.xau.info.bean.RemindExample;
+import edu.xau.info.bean.*;
 import edu.xau.info.mapper.RemindMapper;
+import edu.xau.info.mapper.StudentMapper;
 import edu.xau.info.mapper.TeacherMapper;
 import edu.xau.info.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,8 @@ public class AdminServiceImpl implements AdminService {
     TeacherMapper teacherMapper;
     @Autowired
     RemindMapper remindMapper;
+    @Autowired
+    StudentMapper studentMapper;
 
     @Override
     public void sendmsgtotea(String title) {
@@ -35,5 +37,26 @@ public class AdminServiceImpl implements AdminService {
         for (String no : nos) {
             remindMapper.insert(new Remind(no, title, date));
         }
+    }
+
+    @Override
+    public List<Student> findallstu() {
+        StudentExample example = new StudentExample();
+        example.createCriteria().andFlagIsNull();
+        return studentMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Teacher> findalltea() {
+        TeacherExample example = new TeacherExample();
+        example.createCriteria().andFlagEqualTo(1);
+        return teacherMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Teacher> getCheckList() {
+        TeacherExample teacherExample = new TeacherExample();
+        teacherExample.createCriteria().andFlagIsNull();
+        return teacherMapper.selectByExample(teacherExample);
     }
 }

@@ -93,12 +93,12 @@
         </if>
     </delete>
 
-    <select id="findStuCountDto" resultType="edu.xau.info.Dto.Dto">
+    <select id="findStuCountDto" resultType="edu.xau.info.Vo.EchartSmallVo">
 select teacher.`name` as xdata , count(student.stuid) as y from teacher left join student on teacher.userid = student.teaid and student.flag is null
 group by teaid;
     </select>
 
-    <select id="findTaskCountDto" resultType="edu.xau.info.Dto.Dto">
+    <select id="findTaskCountDto" resultType="edu.xau.info.Vo.EchartSmallVo">
 select teacher.`name` as xdata, count(task.taskid) as y from teacher left join task on teacher.userid = task.teaid group by teaid;
     </select>
 
@@ -115,7 +115,7 @@ select teacher.`name` as xdata, count(task.taskid) as y from teacher left join t
       )
   </insert>
 
-    <select id="findTaskView" resultType="edu.xau.info.Dto.TaskDto">
+    <select id="findTaskView" resultType="edu.xau.info.Vo.EchartTaskVo">
 SELECT
 	min(stu_task.score ) as `min`,
 	AVG(stu_task.score ) as y,

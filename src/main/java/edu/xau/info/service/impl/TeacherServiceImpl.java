@@ -1,14 +1,11 @@
 package edu.xau.info.service.impl;
 
-import edu.xau.info.Dto.Dto;
-import edu.xau.info.Dto.EchartDto;
-import edu.xau.info.Dto.TaskDto;
-import edu.xau.info.Vo.StuTaskVo;
-import edu.xau.info.Vo.TeacherVo;
+import edu.xau.info.Vo.*;
+import edu.xau.info.Vo.EchartVo;
 import edu.xau.info.bean.*;
+import edu.xau.info.common.CodeUtils;
 import edu.xau.info.mapper.*;
 import edu.xau.info.service.TeacherService;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @Author: 杨斌
@@ -46,27 +42,15 @@ public class TeacherServiceImpl implements TeacherService {
         userMapper.insertSelective(user);
         log.info("user = {}  ", user);
         Teacher teacher = new Teacher();
+        teacher.setUserid(user.getUserid());
         BeanUtils.copyProperties(teachervo, teacher);
         teacher.setUserid(user.getUserid());
+        teacher.setInvitecode(CodeUtils.creatinvitecode());
         log.info("teacher = {}  ", teacher);
         teacherMapper.insertSelective(teacher);
     }
 
-    @Override
-    public void createinvitecode(String teacherno) {
-        String str = "ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        int length = str.length();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            sb.append(str.charAt(random.nextInt(length)));
-        }
-        TeacherExample example = new TeacherExample();
-        example.createCriteria().andTeachernoEqualTo(teacherno);
-        Teacher teacher = new Teacher();
-        teacher.setInvitecode(sb.toString());
-        teacherMapper.updateByExampleSelective(teacher, example);
-    }
+
 
     @Override
     public void createtask(Task task) {
@@ -103,15 +87,15 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public EchartDto findTaskView(int teaid) {
-        List<TaskDto> view = teacherMapper.findTaskView(teaid);
-        EchartDto echartDto = new EchartDto();
+    public EchartVo findTaskView(int teaid) {
+        List<EchartTaskVo> view = teacherMapper.findTaskView(teaid);
+        EchartVo echartVo = new EchartVo();
         List<String> xaxis = new ArrayList<>();
         List<Number> min = new ArrayList<>();
         List<Number> avg = new ArrayList<>();
         List<Number> max = new ArrayList<>();
         String name = null;
-        for (TaskDto dto : view) {
+        for (EchartTaskVo dto : view) {
             name = dto.getXdata().length() > 5?dto.getXdata().substring(0, 5)+"……":dto.getXdata();
             xaxis.add(name);
             min.add(dto.getMin());
@@ -124,17 +108,17 @@ public class TeacherServiceImpl implements TeacherService {
         Series avgser = new Series(legend[1],toNumArray(avg));
         Series maxser = new Series(legend[2],toNumArray(max));
 
-        echartDto.setLegend(legend);
-        echartDto.setXAxis(toStrArray(xaxis));
-        echartDto.setSeries(new Series[]{minser,avgser,maxser});
-        return echartDto;
+        echartVo.setLegend(legend);
+        echartVo.setXAxis(toStrArray(xaxis));
+        echartVo.setSeries(new Series[]{minser,avgser,maxser});
+        return echartVo;
     }
 
     @Override
-    public EchartDto findteaechart() {
+    public EchartVo findteaechart() {
         String[] legend =  new String[]{"指导学生数","发布任务数"};
-        List<Dto> stucount = teacherMapper.findStuCountDto();
-        List<Dto> taskcount = teacherMapper.findTaskCountDto();
+        List<EchartSmallVo> stucount = teacherMapper.findStuCountDto();
+        List<EchartSmallVo> taskcount = teacherMapper.findTaskCountDto();
         log.info("stucount = {}", stucount);
         log.info("taskcount = {}", taskcount);
 
@@ -156,11 +140,18 @@ public class TeacherServiceImpl implements TeacherService {
         }
         Series stuseries = new Series(legend[0], stucountArr);
         Series taskseries = new Series(legend[1], taskcountArr);
-        EchartDto echartDto = new EchartDto(legend, xAxis, new Series[]{stuseries, taskseries});
-        log.info("echartDto = {}", echartDto);
-        return echartDto;
+        EchartVo echartVo = new EchartVo(legend, xAxis, new Series[]{stuseries, taskseries});
+        log.info("echartVo = {}", echartVo);
+        return echartVo;
     }
 
+    @Override
+    public ReadtaskVo getTaskByNoAndId(String sno, int taskid) {
+        StuTask stuTask = stuTaskMapper.selectByPrimaryKey(new StuTaskKey(sno, taskid));
+        ReadtaskVo vo = new ReadtaskVo();
+        BeanUtils.copyProperties(stuTask,vo );
+        return vo;
+    }
 
 
     @Override

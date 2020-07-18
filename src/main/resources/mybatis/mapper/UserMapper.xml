@@ -100,7 +100,7 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="edu.xau.info.bean.User">
+    <insert id="insert" parameterType="edu.xau.info.bean.User" useGeneratedKeys="true" keyProperty="userid">
     insert into user (userid, mobile, password, 
       email)
     values (#{userid,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
@@ -119,7 +119,7 @@ and role_user.userid = #{userid};
 select stuno from student where teaid = #{teaid};
   </select>
 
-    <insert id="insertSelective" parameterType="edu.xau.info.bean.User">
+    <insert id="insertSelective" parameterType="edu.xau.info.bean.User" keyProperty="userid" useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userid != null">

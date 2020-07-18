@@ -32,12 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        List<Role> roles = roleMapper.selectByExample(null);
+         /*      List<Role> roles = roleMapper.selectByExample(null);
         log.info("roles = {}", roles);
         for (Role role : roles) {
-       /*     http.authorizeRequests()
-                    .antMatchers(role.getUrl() + "/**").hasAuthority(role.getName());*/
-        }
+     http.authorizeRequests()
+                    .antMatchers(role.getUrl() + "/**").hasAuthority(role.getName());
+        }*/
         /*http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("admin")
                 .antMatchers("/student/**").hasAuthority("student")

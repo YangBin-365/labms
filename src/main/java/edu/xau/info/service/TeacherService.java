@@ -1,6 +1,7 @@
 package edu.xau.info.service;
 
-import edu.xau.info.Dto.EchartDto;
+import edu.xau.info.Vo.EchartVo;
+import edu.xau.info.Vo.ReadtaskVo;
 import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.Vo.TeacherVo;
 import edu.xau.info.bean.Task;
@@ -11,7 +12,6 @@ import java.util.List;
 public interface TeacherService {
     void register(TeacherVo teacher);
 
-    void createinvitecode(String teacherno );
 
     void createtask(Task task);
 
@@ -22,7 +22,7 @@ public interface TeacherService {
 
     Teacher getMyInfo(int teaid);
 
-    EchartDto findTaskView(int teaid);
+    EchartVo findTaskView(int teaid);
 
     long getReadNum(String taskid);
 
@@ -32,5 +32,11 @@ public interface TeacherService {
 
     void updateflagbyid(int teaid);
 
-    EchartDto findteaechart();
+    EchartVo findteaechart();
+
+    ReadtaskVo getTaskByNoAndId(String sno, int taskid);
+
+
+
+
 }

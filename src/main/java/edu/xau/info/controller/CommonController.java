@@ -43,6 +43,9 @@ public class CommonController {
     private StringRedisTemplate redisTemplate;
     @Autowired
     RemindMapper remindMapper;
+    @Autowired
+    CodeUtils codeUtils;
+
 
     @ApiOperation("获取菜单")
     @PostMapping("/getMenu")
@@ -61,11 +64,27 @@ public class CommonController {
         }
     }
 
+    @ApiOperation("修改密码")
+    @PostMapping("/updatepswd")
+    public AppResponse updatepswd(String oldpswd, String newpswd, String code, String mobile) {
+        if (oldpswd.equals(newpswd)) return AppResponse.fail("新旧密码相同！");
+        try {
+            if (codeUtils.check(code, mobile)) {
+                commonService.updatepswd(mobile, oldpswd, newpswd);
+                return AppResponse.ok("ok");
+            } else {
+                return AppResponse.fail("验证码错误");
+            }
+        } catch (Exception e) {
+            log.error("Error = {}", e.getMessage());
+            return AppResponse.fail("修改密码失败");
+        }
+    }
 
 
     @ApiOperation(value = "获取我的消息")
-    @PostMapping("/getmymsg")
-    public AppResponse<List> getMyMsg(String no){
+    @PostMapping("/getmsg")
+    public AppResponse<List> getMyMsg(String no) {
         try {
             RemindExample example = new RemindExample();
             example.createCriteria().andStunoEqualTo(no);
@@ -73,7 +92,7 @@ public class CommonController {
             log.info("reminds = {}", reminds);
             return AppResponse.ok(reminds);
         } catch (Exception e) {
-            log.error("Error : {}",e.getMessage());
+            log.error("Error : {}", e.getMessage());
             return AppResponse.fail(null);
         }
     }

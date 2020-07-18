@@ -10,6 +10,12 @@ import lombok.ToString;
 @Data
 @ToString
 public class StudentVo extends infoVo {
+    /*String name;
+    String sex;
+    String mobile;
+    String password;
+    String email;*/
+    String grade;
     String stuno;
-    String graduationtime;
+    Integer graduationtime;
 }

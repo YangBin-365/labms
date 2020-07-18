@@ -1,4 +1,4 @@
-package edu.xau.info.Dto;
+package edu.xau.info.Vo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -9,7 +9,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class Dto {
+public class EchartSmallVo {
    String xdata;
    int y;
 }

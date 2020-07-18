@@ -1,6 +1,7 @@
 package edu.xau.info.controller;
 
-import edu.xau.info.Dto.EchartDto;
+import edu.xau.info.Vo.EchartVo;
+import edu.xau.info.Vo.ReadtaskVo;
 import edu.xau.info.Vo.StuTaskVo;
 import edu.xau.info.Vo.TeacherVo;
 import edu.xau.info.bean.Task;
@@ -29,6 +30,8 @@ public class TeacherController {
 
     @Autowired
     private TeacherService service;
+    @Autowired
+    CodeUtils codeUtils;
 
     @ApiOperation("批改作业")
     @PostMapping("/mark")
@@ -41,35 +44,40 @@ public class TeacherController {
         }
     }
 
+    @ApiOperation("查看某学生某任务完成情况")
+    @PostMapping("/readtask")
+    public AppResponse readtask(String sno, int taskid) {
+        try {
+            ReadtaskVo readtaskVos = service.getTaskByNoAndId(sno, taskid);
+            return AppResponse.ok(readtaskVos);
+        } catch (Exception e) {
+            log.error("Error = {}", e.getMessage());
+            return AppResponse.fail(null);
+        }
+    }
 
     @ApiOperation(value = "教师注册")
     @PostMapping("/valide")
     public AppResponse register(TeacherVo teacher, String code) {
+        log.info("vo = {}", teacher);
+        log.info("code = {}", code);
         try {
-            if (CodeUtils.check(code, teacher.getMobile())) {
+            if (codeUtils.check(code, teacher.getMobile())) {
                 service.register(teacher);
                 return AppResponse.ok("ok");
+            } else {
+                return AppResponse.fail("验证错误");
             }
         } catch (Exception e) {
+            log.error("Error = {}", e.getMessage());
             return AppResponse.fail("注册失败");
         }
-        return AppResponse.fail("注册失败");
     }
 
-    @ApiOperation("生成邀请码")
-    @GetMapping("/create")
-    public AppResponse createinvitecode(String teacherno) {
-        try {
-            service.createinvitecode(teacherno);
-        } catch (Exception e) {
-            return AppResponse.fail(null);
-        }
-        return AppResponse.ok("ok");
-    }
 
     @ApiOperation("发布任务")
     @PostMapping("/task")
-    public AppResponse postTask(String title,String body,int teaid,int time) {
+    public AppResponse postTask(String title, String body, int teaid, int time) {
         log.info("开始发布任务");
         try {
             Task task = new Task();
@@ -108,11 +116,11 @@ public class TeacherController {
 
     @ApiOperation("各任务的反馈情况")
     @PostMapping("/getTaskoverview")
-    public AppResponse<EchartDto> getTaskView(int teaid) {
+    public AppResponse<EchartVo> getTaskView(int teaid) {
         try {
             log.info("开始查询 TeacherId = {}", teaid);
-            EchartDto echartDto= service.findTaskView(teaid);
-            return AppResponse.ok(echartDto);
+            EchartVo echartVo = service.findTaskView(teaid);
+            return AppResponse.ok(echartVo);
         } catch (Exception e) {
             log.error("查询失败" + e.getMessage());
             return AppResponse.fail(null);
@@ -121,12 +129,12 @@ public class TeacherController {
 
     @ApiOperation("获取已读人数")
     @GetMapping("/getReadNum")
-    public AppResponse<Long> getRead(String taskid){
+    public AppResponse<Long> getRead(String taskid) {
         try {
             long count = service.getReadNum(taskid);
             return AppResponse.ok(count);
         } catch (Exception e) {
-            log.info(e.getMessage() );
+            log.info(e.getMessage());
             return AppResponse.fail(null);
         }
 
@@ -134,9 +142,9 @@ public class TeacherController {
 
     @ApiOperation("获取已提交列表")
     @PostMapping("/getSubList")
-    public AppResponse<List<StuTaskVo>> getSubList(int taskid){
+    public AppResponse<List<StuTaskVo>> getSubList(int taskid) {
         try {
-            List<StuTaskVo> list =   service.getSubList(taskid);
+            List<StuTaskVo> list = service.getSubList(taskid);
             return AppResponse.ok(list);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -148,12 +156,12 @@ public class TeacherController {
 
     @ApiOperation("获取总人数")
     @GetMapping("/getSubNum")
-    public AppResponse<Long> getTotal(String taskid){
+    public AppResponse<Long> getTotal(String taskid) {
         try {
             long count = service.getTotal(taskid);
             return AppResponse.ok(count);
         } catch (Exception e) {
-            log.info(e.getMessage() );
+            log.info(e.getMessage());
             return AppResponse.fail(null);
         }
     }

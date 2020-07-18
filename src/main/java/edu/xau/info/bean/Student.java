@@ -1,5 +1,8 @@
 package edu.xau.info.bean;
 
+import lombok.ToString;
+
+@ToString
 public class Student {
     private Integer stuid;
 

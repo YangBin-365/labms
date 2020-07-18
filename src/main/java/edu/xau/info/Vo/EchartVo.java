@@ -1,4 +1,4 @@
-package edu.xau.info.Dto;
+package edu.xau.info.Vo;
 
 import edu.xau.info.bean.Series;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,8 @@ import lombok.ToString;
 @Data
 @ToString
 @AllArgsConstructor
-public class EchartDto {
-    public EchartDto() {
+public class EchartVo {
+    public EchartVo() {
     }
 
     String[] legend;

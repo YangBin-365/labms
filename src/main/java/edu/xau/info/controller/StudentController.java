@@ -1,9 +1,11 @@
 package edu.xau.info.controller;
 
 import edu.xau.info.Vo.StudentInfo;
+import edu.xau.info.Vo.StudentVo;
 import edu.xau.info.bean.StuTask;
 import edu.xau.info.bean.Student;
 import edu.xau.info.common.AppResponse;
+import edu.xau.info.common.CodeUtils;
 import edu.xau.info.common.OSSTemplate;
 import edu.xau.info.mapper.StuTaskMapper;
 import edu.xau.info.service.StudentService;
@@ -37,6 +39,8 @@ public class StudentController {
     OSSTemplate ossTemplate;
     @Autowired
     StudentService studentService;
+    @Autowired
+    CodeUtils codeUtils;
 
     @ApiOperation(value = "回复任务")
     @PostMapping("/answer")
@@ -72,6 +76,21 @@ public class StudentController {
             List<StudentInfo> stus = studentService.findpartner(stuid);
             log.info("stus = {}",stus);
             return AppResponse.ok(stus);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return AppResponse.fail(null);
+        }
+    }
+
+    @ApiOperation(value = "学生注册")
+    @PostMapping("/register")
+    public AppResponse register(StudentVo vo,String invitecode,String code){
+        if (!codeUtils.check(code, vo.getMobile())) {
+            return AppResponse.fail("验证码错误");
+        }
+        try {
+            studentService.register(vo,invitecode);
+            return AppResponse.ok("ok");
         } catch (Exception e) {
             log.error(e.getMessage());
             return AppResponse.fail(null);

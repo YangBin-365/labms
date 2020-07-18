@@ -1,7 +1,7 @@
 package edu.xau.info.mapper;
 
-import edu.xau.info.Dto.Dto;
-import edu.xau.info.Dto.TaskDto;
+import edu.xau.info.Vo.EchartSmallVo;
+import edu.xau.info.Vo.EchartTaskVo;
 import edu.xau.info.bean.Teacher;
 import edu.xau.info.bean.TeacherExample;
 import java.util.List;
@@ -22,11 +22,11 @@ public interface TeacherMapper {
 
     int updateByExample(@Param("record") Teacher record, @Param("example") TeacherExample example);
 
-    List<TaskDto>  findTaskView(int teaid);
+    List<EchartTaskVo>  findTaskView(int teaid);
 
     List<String> findAllNos();
 
-    List<Dto> findStuCountDto();
+    List<EchartSmallVo> findStuCountDto();
 
-    List<Dto> findTaskCountDto();
+    List<EchartSmallVo> findTaskCountDto();
 }
